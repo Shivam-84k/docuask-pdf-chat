@@ -126,9 +126,12 @@ def ask_question():
         answer = response.text
     except RuntimeError as exc:
         return json_error(str(exc), 500)
-    except Exception:
+    except Exception as exc:
+        print(f"Exception occurred: {exc}")
+        import traceback
+        traceback.print_exc()
         return json_error(
-            "We couldn't get an answer from the language model right now. Please try again.",
+            f"We couldn't get an answer from the language model right now. Error: {str(exc)}",
             500,
         )
 

@@ -1,6 +1,6 @@
 # DocuAsk
 
-DocuAsk is a lightweight PDF question answering web application built with Flask, PyMuPDF, Anthropic Claude, and a single-file HTML/CSS/JavaScript frontend. Upload a PDF, extract its text, and ask questions using only the document content.
+DocuAsk is a lightweight PDF question answering web application built with Flask, PyMuPDF, Google Gemini, and a single-file HTML/CSS/JavaScript frontend. Upload a PDF, extract its text, and ask questions using only the document content.
 
 ## Setup
 
