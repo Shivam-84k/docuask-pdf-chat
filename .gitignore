@@ -1,0 +1,25 @@
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Log files
+*.log
+
+# Large / redundant archives
+*.zip
+
+# Local environment variables
+.env
+.env.*
+
+# OS specific files
+.DS_Store
+Thumbs.db
