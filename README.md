@@ -10,16 +10,16 @@ DocuAsk is a lightweight PDF question answering web application built with Flask
    pip install -r requirements.txt
    ```
 
-2. Set your Anthropic API key:
+2. Set your Gemini API key:
 
    ```bash
-   export ANTHROPIC_API_KEY=your_key_here
+   export GEMINI_API_KEY=your_key_here
    ```
 
    PowerShell alternative:
 
    ```powershell
-   $env:ANTHROPIC_API_KEY="your_key_here"
+   $env:GEMINI_API_KEY="your_key_here"
    ```
 
 3. Start the backend:
@@ -38,6 +38,6 @@ DocuAsk is a lightweight PDF question answering web application built with Flask
 
    You can also open `index.html` directly, but serving it from Flask is simpler on Windows.
 
-## Anthropic API Key
+## Gemini API Key
 
-You can create an Anthropic API key at: https://console.anthropic.com
+You can create a Gemini API key at: https://aistudio.google.com

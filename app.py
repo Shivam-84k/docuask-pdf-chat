@@ -3,7 +3,8 @@ import threading
 import webbrowser
 
 import fitz
-from anthropic import Anthropic
+from google import genai
+from google.genai import types
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
@@ -13,7 +14,7 @@ app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 CORS(app)
 
 MAX_DOCUMENT_CHARS = 10000
-MODEL_NAME = "claude-haiku-3-5-20251001"
+MODEL_NAME = "gemini-2.5-flash"
 APP_URL = "http://127.0.0.1:5000"
 
 
@@ -41,26 +42,13 @@ def build_prompt(pdf_text, question):
     )
 
 
-def get_anthropic_client():
-    api_key = os.getenv("ANTHROPIC_API_KEY")
+def get_gemini_client():
+    api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         raise RuntimeError(
-            "Missing Anthropic API key. Set the ANTHROPIC_API_KEY environment variable."
+            "Missing Gemini API key. Set the GEMINI_API_KEY environment variable."
         )
-    if api_key.startswith("sk-proj-") or api_key.startswith("sk-"):
-        raise RuntimeError(
-            "ANTHROPIC_API_KEY appears to contain a non-Anthropic key. Use an Anthropic API key from https://console.anthropic.com."
-        )
-    return Anthropic(api_key=api_key)
-
-
-def extract_claude_text(response):
-    text_blocks = []
-    for block in getattr(response, "content", []):
-        block_text = getattr(block, "text", "")
-        if block_text:
-            text_blocks.append(block_text)
-    return "\n".join(text_blocks).strip()
+    return genai.Client(api_key=api_key)
 
 
 @app.errorhandler(413)
@@ -126,14 +114,16 @@ def ask_question():
     prompt = build_prompt(truncated_text, question)
 
     try:
-        client = get_anthropic_client()
-        response = client.messages.create(
+        client = get_gemini_client()
+        response = client.models.generate_content(
             model=MODEL_NAME,
-            max_tokens=800,
-            temperature=0,
-            messages=[{"role": "user", "content": prompt}],
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                temperature=0.0,
+                max_output_tokens=800,
+            ),
         )
-        answer = extract_claude_text(response)
+        answer = response.text
     except RuntimeError as exc:
         return json_error(str(exc), 500)
     except Exception:

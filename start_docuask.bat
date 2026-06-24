@@ -14,8 +14,8 @@ if not exist ".venv\Scripts\python.exe" (
   exit /b 1
 )
 
-if "%ANTHROPIC_API_KEY%"=="" (
-echo Warning: ANTHROPIC_API_KEY is not set.
+if "%GEMINI_API_KEY%"=="" (
+echo Warning: GEMINI_API_KEY is not set.
 echo Uploading PDFs will work, but asking questions will fail until you set the key.
 echo.
 )
